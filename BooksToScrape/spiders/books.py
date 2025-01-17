@@ -9,9 +9,9 @@ class BooksSpider(scrapy.Spider):
     def parse(self, response):
         for book in response.css("article.product_pod"):
             yield {
-                "title": book.css("h3 a::attr(title)").get(),
-                "Price": book.css("div.product_price p.price_color::text").get(),
-                "Availability": "".join(book.css("div.product_price p.availability::text").get()).strip()
+                "Titulo": book.css("h3 a::attr(title)").get(),
+                "Precio": book.css("div.product_price p.price_color::text").get(),
+                "Disponibilidad": "".join(book.css("div.product_price p.availability::text").get()).strip()
             }
 
         next_page = response.css("li.next a::attr(href)").get()
