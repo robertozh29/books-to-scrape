@@ -1,21 +1,19 @@
 import scrapy
-import mykeys
 import json
+import private_keys
 
 class OpenweatherSpider(scrapy.Spider):
     name = "weather"
     api_url = "https://api.openweathermap.org/data/2.5/weather"
     api_key = "5d2e48b59c0f16c0631281023411b831"
-    cities = ["London", "Washington"]
+    cities = ["London", "Washington","New York", "Tokyo"]
 
-    def start_request(self):
+    def start_requests(self):
         for city in self.cities:
-            url = f"{self.api_url}?q={city}&appid={self.api_key}"
+            url = f"{self.api_url}?q={city}&appid={private_keys.API_KEY}"
             yield scrapy.Request(url, callback=self.parse, meta={'city': city})
 
     def parse(self, response):
-        self.log(f"----------------Parsing response for {response.url}")
-        print(f"--------------------------Parsing response for {response.url}")
         data = json.loads(response.text)
 
         city = response.meta['city']
@@ -32,5 +30,5 @@ class OpenweatherSpider(scrapy.Spider):
 
     custom_settings = {
         'FEED_FORMAT': 'csv',
-        'FEED_URI': 'weather.csv',
+        'FEED_URI': 'csv_files/weather.csv',
     }

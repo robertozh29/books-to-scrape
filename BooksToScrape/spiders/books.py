@@ -19,6 +19,6 @@ class BooksSpider(scrapy.Spider):
             yield response.follow(next_page, self.parse)
 
     custom_settings = {
-        'FEED_URI': 'books.csv',
+        'FEED_URI': 'csv_files/books.csv',
         'FEED_FORMAT': 'csv',
     }
