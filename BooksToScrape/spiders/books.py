@@ -13,3 +13,12 @@ class BooksSpider(scrapy.Spider):
                 "Price": book.css("div.product_price p.price_color::text").get(),
                 "Availability": "".join(book.css("div.product_price p.availability::text").get()).strip()
             }
+
+        next_page = response.css("li.next a::attr(href)").get()
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
+
+    custom_settings = {
+        'FEED_URI': 'books.csv',
+        'FEED_FORMAT': 'csv',
+    }
